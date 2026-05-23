@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>SwingEdge</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -13,149 +13,196 @@
   --good-bg:#dcfce7;--good-fg:#166534;
   --dev-bg:#f3f4f6;--dev-fg:#374151;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:13px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:13px;min-height:100vh}
 
-#sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:14px 12px;gap:14px}
-.logo{font-size:16px;font-weight:800;letter-spacing:-.5px;color:var(--accent)}
-.logo span{font-size:10px;font-weight:500;color:var(--muted);display:block;margin-top:1px}
-.sec{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.frow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
-.frow label{font-size:12px}
-.fval{font-size:12px;font-weight:600;color:var(--accent)}
-input[type=range]{width:100%;accent-color:var(--accent)}
-.hint{font-size:10px;color:var(--muted);margin-top:2px;margin-bottom:8px}
+/* ── Top bar ── */
+#topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:50}
+.top-row1{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.logo{font-size:17px;font-weight:800;letter-spacing:-.5px;color:var(--accent)}
+.logo span{font-size:10px;font-weight:400;color:var(--muted);margin-left:4px}
+.regime{font-size:10px;padding:3px 8px;border-radius:20px;white-space:nowrap;margin-left:auto}
+.BULLISH{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.BEARISH{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
+.NEUTRAL{background:#fef3c7;border:1px solid #fcd34d;color:#92400e}
+#sym-search{padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:13px;width:100%;outline:none;color:var(--text)}
+#sym-search:focus{border-color:var(--accent)}
 
-/* CANSLIM toggle */
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--border)}
-.toggle-label{font-size:12px;font-weight:500}
-.toggle-sub{font-size:10px;color:var(--muted)}
-.toggle{position:relative;width:36px;height:20px;flex-shrink:0}
-.toggle input{opacity:0;width:0;height:0}
-.slider{position:absolute;inset:0;background:#ccc;border-radius:20px;cursor:pointer;transition:.2s}
-.slider:before{content:"";position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-input:checked+.slider{background:var(--accent)}
-input:checked+.slider:before{transform:translateX(16px)}
+/* ── Scan tabs ── */
+.tabs{display:flex;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-size:12px;padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:var(--bg);color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .12s}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-.scheck{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;margin-bottom:5px}
-.scheck input{accent-color:var(--accent)}
+/* ── Filter bar ── */
+#filterbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.canslim-toggle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;cursor:pointer;padding:5px 10px;border:1px solid var(--border);border-radius:20px;background:var(--bg)}
+.canslim-toggle.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filter-btn{font-size:11px;padding:4px 10px;border:1px solid var(--border);border-radius:20px;background:var(--bg);color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px}
+.filter-btn.active-filter{border-color:var(--accent);color:var(--accent)}
 .badge{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px}
 .READY{background:#dbeafe;color:#1e40af}
 .GOOD{background:#dcfce7;color:#166534}
 .DEVELOPING{background:#f3f4f6;color:#374151}
+.status-row{display:flex;gap:5px;align-items:center}
+.scheck{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:11px}
+.scheck input{accent-color:var(--accent)}
 
-#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
-.tabs{display:flex;gap:4px}
-.tab{font-size:12px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap}
-.tab:hover{border-color:#b0b0a8;color:var(--text)}
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-#sym-search{padding:5px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-size:12px;width:120px;outline:none;color:var(--text);margin-left:auto}
-#sym-search:focus{border-color:var(--accent)}
-.regime{font-size:10px;padding:3px 9px;border-radius:20px;white-space:nowrap}
-.BULLISH{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
-.BEARISH{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
-.NEUTRAL{background:#fef3c7;border:1px solid #fcd34d;color:#92400e}
+/* ── Filter sheet (mobile slide-up) ── */
+#filter-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100}
+#filter-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:16px 16px 0 0;padding:20px 16px 40px;z-index:101;max-height:85vh;overflow-y:auto;transform:translateY(100%);transition:transform .25s ease}
+#filter-sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.sheet-title{font-size:15px;font-weight:600;margin-bottom:16px}
+.sheet-section{margin-bottom:16px}
+.sheet-sec-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.frow{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.frow label{font-size:13px}
+.fval{font-size:13px;font-weight:600;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent);margin-bottom:4px}
+.hint{font-size:11px;color:var(--muted);margin-bottom:8px}
+.sheet-close{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px}
 
-#statsbar{display:flex;gap:14px;padding:5px 16px;background:var(--surface);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);flex-shrink:0;flex-wrap:wrap}
+/* ── Stats ── */
+#statsbar{display:flex;gap:12px;padding:8px 14px;font-size:11px;color:var(--muted);flex-wrap:wrap}
 .stat strong{color:var(--text)}
 
-#results{flex:1;overflow-y:auto;padding:14px 16px}
-.match-line{font-size:12px;color:var(--muted);margin-bottom:12px}
+/* ── Cards ── */
+#results{padding:12px 14px 80px}
+.match-line{font-size:12px;color:var(--muted);margin-bottom:10px}
 .match-line strong{color:var(--text)}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .12s,box-shadow .12s}
-.card:hover{border-color:#b0b0a8;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+@media(max-width:640px){
+  #grid{grid-template-columns:1fr}
+}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .12s}
+.card:active{box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .card.canslim-card{border-left:3px solid #7c3aed}
-.card-head{padding:10px 12px 0}
+.card-head{padding:11px 13px 0}
 .card-top{display:flex;align-items:center;gap:5px;margin-bottom:2px}
 .rank{font-size:11px;color:var(--muted);min-width:20px}
-.ticker{font-size:14px;font-weight:700;letter-spacing:-.3px}
-.ext-link{font-size:9px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;color:var(--muted);text-decoration:none}
-.ext-link:hover{background:var(--bg)}
+.ticker{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.ext-link{font-size:9px;padding:2px 5px;border:1px solid var(--border);border-radius:3px;color:var(--muted);text-decoration:none}
 .score-area{margin-left:auto;display:flex;align-items:center;gap:5px}
-.score{font-size:17px;font-weight:700;letter-spacing:-.5px}
+.score{font-size:18px;font-weight:700;letter-spacing:-.5px}
 .sub{font-size:11px;color:var(--muted);margin-bottom:5px}
 .tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:7px}
-.tag{font-size:10px;padding:2px 7px;border-radius:20px;border:1px solid var(--border);background:#f0ede6;color:#4b4840}
+.tag{font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);background:#f0ede6;color:#4b4840}
 .tag-near{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
 .tag-vol{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
 .tag-warn{background:#fef3c7;border-color:#fcd34d;color:#92400e}
-.cs-pill{font-size:9px;padding:1px 6px;background:#ede9fe;border:1px solid #c4b5fd;color:#5b21b6;border-radius:20px;font-weight:600}
-.card-chart{padding:2px 0 5px}
+.cs-pill{font-size:9px;padding:2px 6px;background:#ede9fe;border:1px solid #c4b5fd;color:#5b21b6;border-radius:20px;font-weight:600}
+.card-chart{padding:2px 0 6px}
+.fundamentals{font-size:10px;color:var(--muted);padding:0 13px 8px;display:flex;gap:6px;flex-wrap:wrap}
+.fund-pill{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 7px}
+.fund-pill.green{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
 
+/* ── Loading ── */
 #loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:var(--bg);z-index:99}
 .spinner{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.fundamentals{font-size:10px;color:var(--muted);padding:0 12px 8px;display:flex;gap:8px;flex-wrap:wrap}
-.fund-pill{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:1px 6px}
-.fund-pill.green{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
-.fund-pill.red{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+/* ── Bottom nav (mobile) ── */
+#bottomnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:8px 14px 20px;z-index:50}
+#bottomnav .tabs{justify-content:space-around}
+@media(max-width:640px){
+  #bottomnav{display:block}
+  #topbar .tabs{display:none}
+}
 </style>
 </head>
 <body>
-<div id="loading"><div class="spinner"></div><span style="font-size:13px;color:var(--muted)">Loading…</span></div>
+<div id="loading"><div class="spinner"></div><span style="font-size:13px;color:var(--muted)">Loading SwingEdge…</span></div>
 
-<aside id="sidebar">
-  <div class="logo">SwingEdge<span>Swing Trader Edition</span></div>
-
-  <!-- CANSLIM Toggle -->
-  <div>
-    <div class="sec">Filter Mode</div>
-    <div class="toggle-row">
-      <div>
-        <div class="toggle-label">CANSLIM Mode</div>
-        <div class="toggle-sub">EPS 20%+ · RS 80+</div>
-      </div>
-      <label class="toggle">
-        <input type="checkbox" id="canslim-toggle">
-        <span class="slider"></span>
-      </label>
-    </div>
+<!-- Top bar -->
+<div id="topbar">
+  <div class="top-row1">
+    <span class="logo">SwingEdge <span>Swing Trader</span></span>
+    <span class="regime NEUTRAL" id="regime-badge">Market</span>
   </div>
+  <!-- Desktop tabs -->
+  <div class="tabs" style="margin-bottom:8px">
+    <div class="tab active" data-scan="vcp">VCP</div>
+    <div class="tab" data-scan="bull_flag">Bull Flag</div>
+    <div class="tab" data-scan="base_breakout">Base Breakout</div>
+    <div class="tab" data-scan="cup_handle">Cup &amp; Handle</div>
+  </div>
+  <input type="text" id="sym-search" placeholder="Search ticker…">
+</div>
 
-  <!-- Status -->
-  <div>
-    <div class="sec">Status</div>
+<!-- Filter bar -->
+<div id="filterbar">
+  <div class="canslim-toggle" id="canslim-btn" onclick="toggleCanslim()">
+    ◆ CANSLIM
+  </div>
+  <div class="status-row">
     <label class="scheck"><input type="checkbox" id="chk-ready" checked><span class="badge READY">READY</span></label>
     <label class="scheck"><input type="checkbox" id="chk-good" checked><span class="badge GOOD">GOOD</span></label>
-    <label class="scheck"><input type="checkbox" id="chk-dev" checked><span class="badge DEVELOPING">DEVELOPING</span></label>
+    <label class="scheck"><input type="checkbox" id="chk-dev" checked><span class="badge DEVELOPING">DEV</span></label>
   </div>
+  <div class="filter-btn" id="filter-open-btn" onclick="openFilters()">⚙ Filters</div>
+</div>
 
-  <!-- RS filter -->
-  <div>
-    <div class="sec">Relative Strength</div>
+<!-- Stats -->
+<div id="statsbar">
+  <div class="stat">Universe: <strong id="st-univ">—</strong></div>
+  <div class="stat">Hits: <strong id="st-hits">—</strong></div>
+  <div class="stat">Showing: <strong id="st-show">—</strong></div>
+  <div class="stat">Updated: <strong id="st-time">—</strong></div>
+</div>
+
+<!-- Results -->
+<div id="results">
+  <div class="match-line"><strong id="match-num">—</strong></div>
+  <div id="grid"></div>
+</div>
+
+<!-- Bottom nav (mobile only) -->
+<div id="bottomnav">
+  <div class="tabs">
+    <div class="tab active" data-scan="vcp">VCP</div>
+    <div class="tab" data-scan="bull_flag">Flag</div>
+    <div class="tab" data-scan="base_breakout">Base</div>
+    <div class="tab" data-scan="cup_handle">C&amp;H</div>
+  </div>
+</div>
+
+<!-- Filter sheet -->
+<div id="filter-overlay" onclick="closeFilters()"></div>
+<div id="filter-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Filters</div>
+
+  <div class="sheet-section">
+    <div class="sheet-sec-label">Relative Strength</div>
     <div class="frow"><label>Min RS percentile</label><span class="fval" id="rs-val">50</span></div>
     <input type="range" id="rs-sl" min="0" max="100" step="1" value="50">
     <div class="hint">higher = stricter</div>
   </div>
 
-  <!-- VCP filters -->
-  <div id="f-vcp">
-    <div class="sec">VCP</div>
+  <div class="sheet-section" id="f-vcp">
+    <div class="sheet-sec-label">VCP</div>
     <div class="frow"><label>Min contractions</label><span class="fval" id="ct-val">2</span></div>
     <input type="range" id="ct-sl" min="1" max="3" step="1" value="2">
     <div class="hint">price tightenings</div>
     <div class="frow"><label>Max 10d range %</label><span class="fval" id="r10-val">12%</span></div>
     <input type="range" id="r10-sl" min="3" max="20" step="1" value="12">
-    <div class="hint">lower = tighter VCP</div>
+    <div class="hint">lower = tighter</div>
   </div>
 
-  <!-- Bull Flag filters -->
-  <div id="f-bull_flag" style="display:none">
-    <div class="sec">Bull Flag</div>
+  <div class="sheet-section" id="f-bull_flag" style="display:none">
+    <div class="sheet-sec-label">Bull Flag</div>
     <div class="frow"><label>Min pole gain %</label><span class="fval" id="pg-val">15%</span></div>
     <input type="range" id="pg-sl" min="10" max="80" step="5" value="15">
     <div class="hint">prior move before flag</div>
-    <div class="frow"><label>Max flag range %</label><span class="fval" id="fr-val">18%</span></div>
-    <input type="range" id="fr-sl" min="5" max="25" step="1" value="18">
+    <div class="frow"><label>Max flag range %</label><span class="fval" id="fr-val">15%</span></div>
+    <input type="range" id="fr-sl" min="5" max="25" step="1" value="15">
     <div class="hint">lower = tighter flag</div>
   </div>
 
-  <!-- Base Breakout filters -->
-  <div id="f-base_breakout" style="display:none">
-    <div class="sec">Base Breakout</div>
+  <div class="sheet-section" id="f-base_breakout" style="display:none">
+    <div class="sheet-sec-label">Base Breakout</div>
     <div class="frow"><label>Min base weeks</label><span class="fval" id="bw-val">6w</span></div>
     <input type="range" id="bw-sl" min="4" max="30" step="1" value="6">
     <div class="hint">longer = more established</div>
@@ -164,9 +211,8 @@ input:checked+.slider:before{transform:translateX(16px)}
     <div class="hint">lower = closer to breakout</div>
   </div>
 
-  <!-- Cup & Handle filters -->
-  <div id="f-cup_handle" style="display:none">
-    <div class="sec">Cup & Handle</div>
+  <div class="sheet-section" id="f-cup_handle" style="display:none">
+    <div class="sheet-sec-label">Cup &amp; Handle</div>
     <div class="frow"><label>Min cup weeks</label><span class="fval" id="cw-val">10w</span></div>
     <input type="range" id="cw-sl" min="6" max="40" step="1" value="10">
     <div class="hint">cup length</div>
@@ -174,33 +220,13 @@ input:checked+.slider:before{transform:translateX(16px)}
     <input type="range" id="cd-sl" min="10" max="50" step="5" value="40">
     <div class="hint">lower = shallower cup</div>
   </div>
-</aside>
 
-<div id="main">
-  <div id="topbar">
-    <div class="tabs">
-      <div class="tab active" data-scan="vcp">VCP</div>
-      <div class="tab" data-scan="bull_flag">Bull Flag</div>
-      <div class="tab" data-scan="base_breakout">Base Breakout</div>
-      <div class="tab" data-scan="cup_handle">Cup &amp; Handle</div>
-    </div>
-    <span class="regime NEUTRAL" id="regime-badge">Loading…</span>
-    <input type="text" id="sym-search" placeholder="Filter symbol…">
-  </div>
-  <div id="statsbar">
-    <div class="stat">Universe: <strong id="st-univ">—</strong></div>
-    <div class="stat">Scan hits: <strong id="st-hits">—</strong></div>
-    <div class="stat">Showing: <strong id="st-show">—</strong></div>
-    <div class="stat">Scanned: <strong id="st-time">—</strong></div>
-  </div>
-  <div id="results">
-    <div class="match-line"><strong id="match-num">—</strong></div>
-    <div id="grid"></div>
-  </div>
+  <button class="sheet-close" onclick="closeFilters()">Done</button>
 </div>
 
 <script>
-function makeSVG(ohlc,w=270,h=95){
+function makeSVG(ohlc,w,h){
+  w=w||300;h=h||90;
   if(!ohlc||!ohlc.length)return'';
   const pL=4,pR=58,pT=4,pB=4;
   const prices=ohlc.flatMap(d=>[d.h,d.l]);
@@ -221,7 +247,7 @@ function makeSVG(ohlc,w=270,h=95){
   s+=`<line x1="${pL}" y1="${ly.toFixed(1)}" x2="${w-pR+1}" y2="${ly.toFixed(1)}" stroke="#9ca3af" stroke-dasharray="2,3" stroke-width=".7"/>`;
   s+=`<rect x="${lx}" y="${(ly-8).toFixed(1)}" width="${pR-4}" height="15" fill="#111827" rx="2"/>`;
   s+=`<text x="${(lx+(pR-4)/2).toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="middle" fill="#f9fafb" font-size="9" font-family="ui-monospace,monospace" font-weight="600">${lbl}</text>`;
-  return`<svg width="${w}" height="${h}" style="display:block;overflow:visible">${s}</svg>`;
+  return`<svg width="100%" viewBox="0 0 ${w} ${h}" style="display:block;overflow:visible">${s}</svg>`;
 }
 
 function tagHTML(t){
@@ -234,21 +260,19 @@ function tagHTML(t){
 }
 
 function subLine(s,scan){
-  if(scan==='vcp')         return`${s.contractions} contractions · ${s.range_10d}% tight · RS ${s.rs_pctile}th`;
-  if(scan==='bull_flag')   return`Pole +${s.pole_gain_pct}% · Flag ${s.flag_days}d · Vol ${(s.vol_ratio*100).toFixed(0)}%`;
+  if(scan==='vcp')return`${s.contractions} contractions · ${s.range_10d}% tight · RS ${s.rs_pctile}th`;
+  if(scan==='bull_flag')return`Pole +${s.pole_gain_pct}% · Flag ${s.flag_days}d · Vol ${(s.vol_ratio*100).toFixed(0)}%`;
   if(scan==='base_breakout')return`${s.base_weeks}w base · ${s.base_range_pct}% range · ${s.from_high_pct}% from pivot`;
-  if(scan==='cup_handle')  return`${s.cup_weeks}w cup · ${s.cup_depth_pct}% deep · Handle ${s.handle_depth_pct}%`;
+  if(scan==='cup_handle')return`${s.cup_weeks}w cup · ${s.cup_depth_pct}% deep · Handle ${s.handle_depth_pct}%`;
   return'';
 }
 
 function fundLine(s){
-  if(!s.eps_growth&&!s.rev_growth) return'';
-  const eg=s.eps_growth||0, rg=s.rev_growth||0;
-  const ecls=eg>=20?'fund-pill green':'fund-pill';
-  const rcls=rg>=20?'fund-pill green':'fund-pill';
+  if(!s.eps_growth&&!s.rev_growth)return'';
+  const eg=s.eps_growth||0,rg=s.rev_growth||0;
   return`<div class="fundamentals">
-    <span class="${ecls}">EPS ${eg>0?'+':''}${eg.toFixed(0)}%</span>
-    <span class="${rcls}">Rev ${rg>0?'+':''}${rg.toFixed(0)}%</span>
+    <span class="fund-pill ${eg>=20?'green':''}"">EPS ${eg>0?'+':''}${eg.toFixed(0)}%</span>
+    <span class="fund-pill ${rg>=20?'green':''}">Rev ${rg>0?'+':''}${rg.toFixed(0)}%</span>
     ${s.sector?`<span class="fund-pill">${s.sector}</span>`:''}
   </div>`;
 }
@@ -276,12 +300,12 @@ function renderCard(s,rank,scan){
   </div>`;
 }
 
-let DATA={}, SCAN='vcp';
+let DATA={},SCAN='vcp',CANSLIM=false;
 
 function getF(){
   return{
     rsMin:+document.getElementById('rs-sl').value,
-    canslim:document.getElementById('canslim-toggle').checked,
+    canslim:CANSLIM,
     status:{READY:document.getElementById('chk-ready').checked,
             GOOD:document.getElementById('chk-good').checked,
             DEVELOPING:document.getElementById('chk-dev').checked},
@@ -299,21 +323,20 @@ function getF(){
 
 function applyF(results,f){
   return results.filter(s=>{
-    if(f.canslim && !s.canslim) return false;
-    if(s.rs_pctile<f.rsMin) return false;
-    if(!f.status[s.status]) return false;
-    if(f.sym && !s.ticker.includes(f.sym)) return false;
-    if(SCAN==='vcp') return s.contractions>=f.ct && s.range_10d<=f.r10;
-    if(SCAN==='bull_flag') return s.pole_gain_pct>=f.pg && s.flag_range_pct<=f.fr;
-    if(SCAN==='base_breakout') return s.base_weeks>=f.bw && s.from_high_pct<=f.fp;
-    if(SCAN==='cup_handle') return s.cup_weeks>=f.cw && s.cup_depth_pct<=f.cd;
+    if(f.canslim&&!s.canslim)return false;
+    if(s.rs_pctile<f.rsMin)return false;
+    if(!f.status[s.status])return false;
+    if(f.sym&&!s.ticker.includes(f.sym))return false;
+    if(SCAN==='vcp')return s.contractions>=f.ct&&s.range_10d<=f.r10;
+    if(SCAN==='bull_flag')return s.pole_gain_pct>=f.pg&&s.flag_range_pct<=f.fr;
+    if(SCAN==='base_breakout')return s.base_weeks>=f.bw&&s.from_high_pct<=f.fp;
+    if(SCAN==='cup_handle')return s.cup_weeks>=f.cw&&s.cup_depth_pct<=f.cd;
     return true;
   });
 }
 
 function render(){
-  const sd=DATA[SCAN];
-  if(!sd) return;
+  const sd=DATA[SCAN];if(!sd)return;
   const raw=sd.results||[];
   const f=getF();
   const filtered=applyF(raw,f);
@@ -321,10 +344,7 @@ function render(){
   document.getElementById('st-hits').textContent=raw.length;
   document.getElementById('st-show').textContent=filtered.length;
   const grid=document.getElementById('grid');
-  if(!filtered.length){
-    grid.innerHTML='<div style="color:var(--muted);padding:20px 0">No setups match current filters.</div>';
-    return;
-  }
+  if(!filtered.length){grid.innerHTML='<div style="color:var(--muted);padding:20px 0">No setups match filters.</div>';return;}
   grid.innerHTML=filtered.map((s,i)=>renderCard(s,i+1,SCAN)).join('');
 }
 
@@ -333,11 +353,26 @@ function switchScan(scan){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.scan===scan));
   ['vcp','bull_flag','base_breakout','cup_handle'].forEach(k=>{
     const el=document.getElementById('f-'+k);
-    if(el) el.style.display=k===scan?'':'none';
+    if(el)el.style.display=k===scan?'':'none';
   });
   render();
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchScan(t.dataset.scan)));
+
+function toggleCanslim(){
+  CANSLIM=!CANSLIM;
+  document.getElementById('canslim-btn').classList.toggle('on',CANSLIM);
+  render();
+}
+
+function openFilters(){
+  document.getElementById('filter-overlay').style.display='block';
+  document.getElementById('filter-sheet').classList.add('open');
+}
+function closeFilters(){
+  document.getElementById('filter-overlay').style.display='none';
+  document.getElementById('filter-sheet').classList.remove('open');
+}
 
 const SLIDERS=[
   ['rs-sl','rs-val',v=>v],
@@ -348,17 +383,16 @@ const SLIDERS=[
 ];
 SLIDERS.forEach(([sid,vid,fmt])=>{
   const sl=document.getElementById(sid),vl=document.getElementById(vid);
-  if(sl&&vl) sl.addEventListener('input',()=>{vl.textContent=fmt(sl.value);render()});
+  if(sl&&vl)sl.addEventListener('input',()=>{vl.textContent=fmt(sl.value);render()});
 });
 ['chk-ready','chk-good','chk-dev'].forEach(id=>
   document.getElementById(id).addEventListener('change',render));
 document.getElementById('sym-search').addEventListener('input',render);
-document.getElementById('canslim-toggle').addEventListener('change',render);
 
 async function loadData(){
   try{
     const res=await fetch('results.json');
-    if(!res.ok) throw new Error('HTTP '+res.status);
+    if(!res.ok)throw new Error('HTTP '+res.status);
     const d=await res.json();
     DATA={vcp:d.vcp||{results:[]},bull_flag:d.bull_flag||{results:[]},
           base_breakout:d.base_breakout||{results:[]},cup_handle:d.cup_handle||{results:[]}};
@@ -367,18 +401,19 @@ async function loadData(){
     rb.textContent=`Market: ${regime}`;
     rb.className=`regime ${regime}`;
     document.getElementById('st-univ').textContent=d.universe||'—';
-    document.getElementById('st-time').textContent=d.scanned_at?new Date(d.scanned_at).toLocaleString():'—';
+    document.getElementById('st-time').textContent=d.scanned_at?new Date(d.scanned_at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
     document.getElementById('loading').style.display='none';
     render();
   }catch(e){
     document.getElementById('loading').innerHTML=`
       <div style="text-align:center;padding:24px;max-width:320px">
-        <div style="font-size:28px;margin-bottom:12px">⚠️</div>
-        <strong style="font-size:14px">results.json not found</strong><br><br>
-        <div style="font-size:12px;color:var(--muted);line-height:1.8">
-          Run: <code style="background:#f0ede6;padding:2px 7px;border-radius:4px">python3 scanner.py --test</code><br>
-          Then: <code style="background:#f0ede6;padding:2px 7px;border-radius:4px">python3 -m http.server 8080</code><br>
-          Open: <a href="http://localhost:8080" style="color:var(--accent)">localhost:8080</a>
+        <div style="font-size:32px;margin-bottom:12px">📊</div>
+        <strong style="font-size:15px">SwingEdge</strong><br><br>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          Run the scanner first:<br>
+          <code style="background:#f0ede6;padding:2px 8px;border-radius:4px">python3 scanner.py</code><br><br>
+          Then serve locally:<br>
+          <code style="background:#f0ede6;padding:2px 8px;border-radius:4px">python3 -m http.server 8080</code>
         </div>
       </div>`;
   }

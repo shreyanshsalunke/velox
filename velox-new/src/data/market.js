@@ -1,0 +1,100 @@
+export const MARKET_REGIME = {
+  spyAbove200: true,
+  vix: 14.2,
+  spyPrice: 541.2,
+  spy200ma: 498.3,
+  trend: 'BULL',
+  label: 'Risk-On',
+};
+
+export const SECTORS = [
+  { name: 'Technology',     rs: 38, trend: 'up',   top: true  },
+  { name: 'Industrials',    rs: 29, trend: 'up',   top: true  },
+  { name: 'Health Care',    rs: 24, trend: 'up',   top: true  },
+  { name: 'Financials',     rs: 18, trend: 'up',   top: false },
+  { name: 'Cons. Disc.',    rs: 12, trend: 'flat', top: false },
+  { name: 'Materials',      rs:  8, trend: 'flat', top: false },
+  { name: 'Energy',         rs:  5, trend: 'flat', top: false },
+  { name: 'Utilities',      rs: -4, trend: 'dn',   top: false },
+  { name: 'Real Estate',    rs: -8, trend: 'dn',   top: false },
+  { name: 'Cons. Staples',  rs:-11, trend: 'dn',   top: false },
+];
+
+export const UNIVERSE = [
+  { ticker:'GEV',  name:'GE Vernova',         sector:'Industrials',  price:288.1, chg:+3.2,  vs20:+9.1, vs50:+14.2, vs200:+38.4, rsi:71, rvol:2.4, rs3m:55, mcap:'28B', vol:'3.1M', adr:3.8, eps:95, setup:'Breakout', score:93 },
+  { ticker:'NVDA', name:'Nvidia',              sector:'Technology',   price:138.4, chg:+2.1,  vs20:+7.4, vs50:+12.1, vs200:+44.2, rsi:68, rvol:1.8, rs3m:42, mcap:'3.4T', vol:'42M', adr:3.1, eps:180,setup:'Breakout', score:91 },
+  { ticker:'AXON', name:'Axon Enterprise',     sector:'Industrials',  price:312.7, chg:+1.8,  vs20:+5.1, vs50:+8.4,  vs200:+28.7, rsi:63, rvol:2.1, rs3m:38, mcap:'25B', vol:'1.2M', adr:2.9, eps:44, setup:'Breakout', score:88 },
+  { ticker:'META', name:'Meta Platforms',      sector:'Technology',   price:602.5, chg:+1.4,  vs20:+6.2, vs50:+9.8,  vs200:+36.1, rsi:66, rvol:1.4, rs3m:36, mcap:'1.5T', vol:'18M', adr:2.2, eps:33, setup:'Breakout', score:87 },
+  { ticker:'VIST', name:'Vista Oil & Gas',     sector:'Energy',       price:55.3,  chg:+4.1,  vs20:+8.2, vs50:+11.4, vs200:+42.1, rsi:65, rvol:1.9, rs3m:44, mcap:'4.2B', vol:'2.8M', adr:4.2, eps:72, setup:'Breakout', score:85 },
+  { ticker:'CRWD', name:'CrowdStrike',         sector:'Technology',   price:398.3, chg:-0.4,  vs20:+3.1, vs50:+7.6,  vs200:+28.9, rsi:64, rvol:1.6, rs3m:33, mcap:'98B', vol:'4.1M', adr:2.8, eps:28, setup:'Pullback', score:82 },
+  { ticker:'WM',   name:'Waste Management',    sector:'Industrials',  price:221.8, chg:+0.8,  vs20:+3.4, vs50:+5.9,  vs200:+18.2, rsi:60, rvol:1.2, rs3m:24, mcap:'88B', vol:'1.1M', adr:1.4, eps:12, setup:'Basing',   score:77 },
+  { ticker:'CELH', name:'Celsius Holdings',    sector:'Cons. Disc.',  price:31.4,  chg:+1.1,  vs20:+1.8, vs50:+3.1,  vs200:+8.4,  rsi:54, rvol:1.1, rs3m:22, mcap:'7.1B', vol:'4.4M', adr:3.1, eps:62, setup:'Basing',   score:70 },
+  { ticker:'GILD', name:'Gilead Sciences',     sector:'Health Care',  price:114.2, chg:+0.3,  vs20:+2.1, vs50:+4.7,  vs200:+14.8, rsi:58, rvol:1.0, rs3m:19, mcap:'142B', vol:'6.2M',adr:1.2, eps:8,  setup:'Basing',   score:72 },
+  { ticker:'LULU', name:'Lululemon',           sector:'Cons. Disc.',  price:78.2,  chg:-1.2,  vs20:+1.4, vs50:+5.2,  vs200:+12.1, rsi:57, rvol:1.3, rs3m:28, mcap:'9.8B', vol:'2.2M', adr:2.4, eps:18, setup:'Pullback', score:74 },
+  { ticker:'XOM',  name:'ExxonMobil',          sector:'Energy',       price:118.4, chg:+0.2,  vs20:+0.4, vs50:+2.1,  vs200:+5.8,  rsi:51, rvol:0.9, rs3m:8,  mcap:'488B', vol:'14M', adr:1.1, eps:4,  setup:'Basing',   score:54 },
+  { ticker:'NEE',  name:'NextEra Energy',       sector:'Utilities',    price:72.4,  chg:-0.8,  vs20:-2.1, vs50:-4.8,  vs200:-9.2,  rsi:44, rvol:0.8, rs3m:-8, mcap:'148B', vol:'8.8M',adr:1.3, eps:6,  setup:'Weak',     score:38 },
+  { ticker:'O',    name:'Realty Income',        sector:'Real Estate',  price:54.1,  chg:-0.4,  vs20:-1.8, vs50:-3.2,  vs200:-7.1,  rsi:46, rvol:0.7, rs3m:-6, mcap:'48B', vol:'5.1M', adr:0.9, eps:3,  setup:'Weak',     score:42 },
+  { ticker:'KO',   name:'Coca-Cola',            sector:'Cons. Staples',price:68.3,  chg:+0.1,  vs20:-0.8, vs50:-2.1,  vs200:-3.4,  rsi:48, rvol:0.9, rs3m:-9, mcap:'294B', vol:'12M', adr:0.8, eps:5,  setup:'Weak',     score:41 },
+  { ticker:'ABBV', name:'AbbVie',               sector:'Health Care',  price:188.4, chg:+0.6,  vs20:+1.2, vs50:+3.4,  vs200:+11.4, rsi:55, rvol:1.1, rs3m:14, mcap:'333B', vol:'5.8M',adr:1.4, eps:14, setup:'Basing',   score:65 },
+];
+
+export const MOMENTUM_LEADERS = {
+  '1W': [
+    { rank:1, ticker:'GEV',  sector:'Industrials', chg:+8.4, score:93 },
+    { rank:2, ticker:'VIST', sector:'Energy',      chg:+7.1, score:85 },
+    { rank:3, ticker:'NVDA', sector:'Technology',  chg:+5.8, score:91 },
+    { rank:4, ticker:'AXON', sector:'Industrials', chg:+4.4, score:88 },
+    { rank:5, ticker:'META', sector:'Technology',  chg:+3.8, score:87 },
+    { rank:6, ticker:'CRWD', sector:'Technology',  chg:+3.1, score:82 },
+    { rank:7, ticker:'CELH', sector:'Cons. Disc.', chg:+2.9, score:70 },
+    { rank:8, ticker:'LULU', sector:'Cons. Disc.', chg:+2.1, score:74 },
+  ],
+  '1M': [
+    { rank:1, ticker:'NVDA', sector:'Technology',  chg:+18.4, score:91 },
+    { rank:2, ticker:'GEV',  sector:'Industrials', chg:+16.2, score:93 },
+    { rank:3, ticker:'AXON', sector:'Industrials', chg:+12.8, score:88 },
+    { rank:4, ticker:'VIST', sector:'Energy',      chg:+11.4, score:85 },
+    { rank:5, ticker:'META', sector:'Technology',  chg:+9.8,  score:87 },
+    { rank:6, ticker:'CRWD', sector:'Technology',  chg:+8.1,  score:82 },
+    { rank:7, ticker:'GILD', sector:'Health Care', chg:+5.4,  score:72 },
+    { rank:8, ticker:'WM',   sector:'Industrials', chg:+4.2,  score:77 },
+  ],
+  '3M': [
+    { rank:1, ticker:'GEV',  sector:'Industrials', chg:+55.1, score:93 },
+    { rank:2, ticker:'NVDA', sector:'Technology',  chg:+42.4, score:91 },
+    { rank:3, ticker:'VIST', sector:'Energy',      chg:+44.2, score:85 },
+    { rank:4, ticker:'AXON', sector:'Industrials', chg:+38.1, score:88 },
+    { rank:5, ticker:'META', sector:'Technology',  chg:+36.4, score:87 },
+    { rank:6, ticker:'CRWD', sector:'Technology',  chg:+33.2, score:82 },
+    { rank:7, ticker:'LULU', sector:'Cons. Disc.', chg:+28.4, score:74 },
+    { rank:8, ticker:'WM',   sector:'Industrials', chg:+24.1, score:77 },
+  ],
+  '6M': [
+    { rank:1, ticker:'NVDA', sector:'Technology',  chg:+72.4, score:91 },
+    { rank:2, ticker:'GEV',  sector:'Industrials', chg:+68.8, score:93 },
+    { rank:3, ticker:'VIST', sector:'Energy',      chg:+58.1, score:85 },
+    { rank:4, ticker:'AXON', sector:'Industrials', chg:+52.4, score:88 },
+    { rank:5, ticker:'META', sector:'Technology',  chg:+48.2, score:87 },
+    { rank:6, ticker:'CRWD', sector:'Technology',  chg:+41.8, score:82 },
+    { rank:7, ticker:'CELH', sector:'Cons. Disc.', chg:+38.4, score:70 },
+    { rank:8, ticker:'GILD', sector:'Health Care', chg:+28.4, score:72 },
+  ],
+  'YTD': [
+    { rank:1, ticker:'NVDA', sector:'Technology',  chg:+88.4, score:91 },
+    { rank:2, ticker:'GEV',  sector:'Industrials', chg:+82.1, score:93 },
+    { rank:3, ticker:'VIST', sector:'Energy',      chg:+74.2, score:85 },
+    { rank:4, ticker:'AXON', sector:'Industrials', chg:+68.4, score:88 },
+    { rank:5, ticker:'META', sector:'Technology',  chg:+62.1, score:87 },
+    { rank:6, ticker:'CRWD', sector:'Technology',  chg:+54.8, score:82 },
+    { rank:7, ticker:'LULU', sector:'Cons. Disc.', chg:+44.1, score:74 },
+    { rank:8, ticker:'WM',   sector:'Industrials', chg:+38.4, score:77 },
+  ],
+};
+
+export const CHART_DATA = {
+  NVDA: Array.from({length:90}, (_,i) => ({ day: i+1, price: Math.round((80 + i*0.7 + Math.sin(i*0.3)*8 + Math.random()*4)*10)/10 })),
+  GEV:  Array.from({length:90}, (_,i) => ({ day: i+1, price: Math.round((140 + i*1.7 + Math.sin(i*0.4)*12 + Math.random()*6)*10)/10 })),
+  AXON: Array.from({length:90}, (_,i) => ({ day: i+1, price: Math.round((200 + i*1.3 + Math.sin(i*0.35)*10 + Math.random()*5)*10)/10 })),
+  META: Array.from({length:90}, (_,i) => ({ day: i+1, price: Math.round((440 + i*1.8 + Math.sin(i*0.25)*15 + Math.random()*8)*10)/10 })),
+  DEFAULT: Array.from({length:90}, (_,i) => ({ day: i+1, price: Math.round((50 + i*0.4 + Math.sin(i*0.3)*5 + Math.random()*3)*10)/10 })),
+};
